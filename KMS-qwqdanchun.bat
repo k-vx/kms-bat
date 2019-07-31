@@ -9,11 +9,12 @@ mshta vbscript:createobject("shell.application").shellexecute("%~s0","goto :star
 echo 本脚本需要右键管理员运行
 echo 适用于使用我的脚本激活了Windows的用户
 echo 有问题请邮件至287182701@qq.com
-set /p xuanze=【A】KMS激活Windows   【B】KMS激活Office 【C】清除Windows KMS 【D】清除Office KMS  请输入你的选择:
+set /p xuanze=【A】KMS激活Windows   【B】KMS激活Office 【C】清除Windows KMS 【D】清除Office KMS 【E】激活office 2019 请输入你的选择:
 if /i "%xuanze%"=="a" cls&goto start1
 if /i "%xuanze%"=="b" cls&goto start2
 if /i "%xuanze%"=="c" cls&goto start3
 if /i "%xuanze%"=="d" cls&goto start4
+if /i "%xuanze%"=="e" cls&goto start5
 
 :start2
 set KMS_Sev=kms.cangshui.net
@@ -91,10 +92,24 @@ cls
 echo 无法连接到服务器……
 pause
 
-
+:start5
+(cd /d "%~dp0")&&(NET FILE||(powershell start-process -FilePath '%0' -verb runas)&&(exit /B)) >NUL 2>&1
+title Office 2019 Activator r/Piracy
+echo Converting...
+(if exist "%ProgramFiles%\Microsoft Office\Office16\ospp.vbs" cd /d "%ProgramFiles%\Microsoft Office\Office16")&(if exist "%ProgramFiles(x86)%\Microsoft Office\Office16\ospp.vbs" cd /d "%ProgramFiles(x86)%\Microsoft Office\Office16")&(for /f %%x in ('dir /b ..\root\Licenses16\ProPlus2019VL*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%%x" >nul)&(for /f %%x in ('dir /b ..\root\Licenses16\ProPlus2019VL*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%%x" >nul)
+cscript //nologo ospp.vbs /unpkey:6MWKP >nul&cscript //nologo ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP >nul&set i=1
+:server
+if %i%==1 set KMS_Sev=kms.cangshui.net
+if %i%==2 set KMS_Sev=kms.cangshui.net
+if %i%==3 set KMS_Sev=kms.cangshui.net
+cscript //nologo ospp.vbs /sethst:%KMS_Sev% >nul
+echo %KMS_Sev% & echo Activating...
+cscript //nologo ospp.vbs /act | find /i "successful" && (echo Complete) || (echo Trying another KMS Server & set /a i+=1 & goto server)
+pause >nul
+exit
 
 :start1
-set KMS_Sev=这里填写kms服务器
+set KMS_Sev=kms.cangshui.net
 cls
 echo 如果提示未找到序列号，请手动在CMD里运行
 echo reg QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "EditionID"
